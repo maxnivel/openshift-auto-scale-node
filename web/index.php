@@ -1,3 +1,8 @@
 <?php
 
-echo "Openshift auto-scale node aws";
+while(true){
+    
+    echo "arroz\n";
+    
+    sleep(1);
+}
