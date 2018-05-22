@@ -3,7 +3,19 @@ cd $( cd "$(dirname "$0")" ; pwd -P )
 
 echo $(pwd)
 
-bash ./build.sh
+docker build -t maxnivel/openshift-auto-scale-node .
+if ! [ "$?" = "0" ]
+then
+ echo "Deu problema na criação da imagem"
+ exit 1
+fi
 
-s2i build https://github.com/maxnivel/openshift-auto-scale-node.git --context-dir=web   maxnivel/openshift-auto-scale-node-plataform:latest openshift-auto-scale-node
-docker run -p 8080:8080 openshift-auto-scale-node
+#docker rm -f openshift-auto-scale-node
+
+echo ""
+echo ""
+docker run -it --rm --name openshift-auto-scale-node \
+-v $(pwd):/var/www/ \
+-w /var/www/ \
+-p 8080:80 \
+maxnivel/openshift-auto-scale-node $1

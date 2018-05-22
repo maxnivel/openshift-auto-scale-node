@@ -1,12 +1,9 @@
-FROM centos/php-70-centos7
+FROM php:7.1-apache
 
-USER root
+RUN cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
-RUN wget https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz && \
-tar -xvf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz && \
-cd  openshift-origin-client-tools-v3.9.0-191fece-linux-64bit && \
-cp oc /usr/bin
+RUN apt-get update -y && apt-get install ssh -y
 
-USER 1001
+ADD entrypoint.sh /bin/
 
-ENTRYPOINT bash
+ENTRYPOINT /bin/entrypoint.sh

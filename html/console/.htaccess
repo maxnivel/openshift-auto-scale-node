@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteBase /console/
+
+# If the user types any site section, like "site/section".
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
